@@ -26,7 +26,7 @@ import com.google.protobuf.ByteString;
 import com.salesforce.eventbus.protobuf.ProducerEvent;
 import com.salesforce.eventbus.protobuf.SchemaInfo;
 
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * The AccountUpdateAppUtil class provides helper functions such as creating NewAccount records,
@@ -109,7 +109,7 @@ public class AccountUpdateAppUtil {
      * @param logger
      * @throws Exception
      */
-    public static void updateAccountRecord(ExampleConfigurations subParams, String accountRecordId, String token, Logger logger) throws Exception {
+    public static void updateAccountRecord(PubSubConfig subParams, String accountRecordId, String token, Logger logger) throws Exception {
         HttpClient client = new HttpClient();
         client.start();
 

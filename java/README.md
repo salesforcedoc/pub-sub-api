@@ -18,7 +18,7 @@ In the `src/main` directory of the project, you will find several sub-directorie
 1. Install [Java 11](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html), [Maven](https://maven.apache.org/install.html).
 2. Clone this project.
 3. Run `mvn clean install` from the `java` directory to build the project and generate required sources from the proto file.
-4. The `arguments.yaml` file in the `src/main/resources` sub-directory contains a list of required and optional configurations needed to run the examples. The file contains detailed comments on how to set the configurations.
+4. The `pubsub.yaml` file in the `src/main/resources` sub-directory contains a list of required and optional configurations needed to run the examples. The file contains detailed comments on how to set the configurations.
 5. Get the username, password, and login URL of the Salesforce org you wish to use.
 6. For the examples in `genericpubsub` package, a custom **_Order Event_** [platform event](https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/platform_events_define_ui.htm) has to be created in the Salesforce org. Ensure your `Order Event` platform event matches the following structure:
    - Standard Fields
@@ -31,7 +31,7 @@ In the `src/main` directory of the project, you will find several sub-directorie
 7. For the examples in the `accountupdateapp` package, another custom **_NewAccount_** [platform event](https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/platform_events_define_ui.htm) has to be created in the Salesforce org. [More info here](src/main/java/accountupdateapp/README.md).
 
 ### Execution
-1. Update the configurations in the `src/main/resources/arguments.yaml` file. The required configurations will apply to all the examples and the optional ones depends on which example is being executed. The configurations include:
+1. Update the configurations in the `src/main/resources/pubsub.yaml` file. The required configurations will apply to all the examples and the optional ones depends on which example is being executed. The configurations include:
    1. Required configurations:
        * `PUBSUB_HOST`: Specify the Pub/Sub API endpoint to be used.
        * `PUBSUB_PORT`: Specify the Pub/Sub API port to be used (usually 7443).

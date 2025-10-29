@@ -11,11 +11,11 @@ import com.google.protobuf.ByteString;
 import com.salesforce.eventbus.protobuf.ReplayPreset;
 
 /**
- * The ExampleConfigurations class is used for setting up the configurations for running the examples.
+ * The PubSubConfig class is used for setting up the configurations for running the examples.
  * The configurations can be read from a YAML file or created directly via an object. It also sets
  * default values when an optional configuration is not specified.
  */
-public class ExampleConfigurations {
+public class PubSubConfig {
     private String username;
     private String password;
     private String loginUrl;
@@ -35,12 +35,12 @@ public class ExampleConfigurations {
     private String managedSubscriptionId;
     private String developerName;
 
-    public ExampleConfigurations() {
+    public PubSubConfig() {
         this(null, null, null, null, null,
                 null, null, null, 5, false, 5, false,
                 false, false, ReplayPreset.LATEST, null, null, null);
     }
-    public ExampleConfigurations(String filename) throws IOException {
+    public PubSubConfig(String filename) throws IOException {
 
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream("src/main/resources/"+filename);
@@ -85,13 +85,13 @@ public class ExampleConfigurations {
         this.managedSubscriptionId = obj.get("MANAGED_SUB_ID") == null ? null : obj.get("MANAGED_SUB_ID").toString();
     }
 
-    public ExampleConfigurations(String username, String password, String loginUrl,
+    public PubSubConfig(String username, String password, String loginUrl,
                                  String pubsubHost, int pubsubPort, String topic) {
         this(username, password, loginUrl, null, null, pubsubHost, pubsubPort, topic,
                 5, false, Integer.MAX_VALUE, false, false, false, ReplayPreset.LATEST, null, null, null);
     }
 
-    public ExampleConfigurations(String username, String password, String loginUrl, String tenantId, String accessToken,
+    public PubSubConfig(String username, String password, String loginUrl, String tenantId, String accessToken,
                                  String pubsubHost, Integer pubsubPort, String topic, Integer numberOfEventsToPublish,
                                  Boolean singlePublishRequest, Integer numberOfEventsToSubscribeInEachFetchRequest,
                                  Boolean processChangedFields, Boolean plaintextChannel, Boolean providedLoginUrl,

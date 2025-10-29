@@ -14,7 +14,7 @@ This example subscribes to change events corresponding to the creation of [Accou
         - Plural Label: `NewAccounts`
     - Custom Fields
         - `AccountRecordId` (Text, 20)
-3. Only the required configurations need to be specified in the `arguments.yaml` file while running this example. You can specify the other optional configurations, but the optional configurations required for this example will be overwritten while running the examples.
+3. Only the required configurations need to be specified in the `pubsub.yaml` file while running this example. You can specify the other optional configurations, but the optional configurations required for this example will be overwritten while running the examples.
 
 ## Flow Overview:
 * User creates an `Account` standard object which triggers an `AccountChangeEvent` event.

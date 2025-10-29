@@ -13,7 +13,7 @@ import org.apache.avro.io.EncoderFactory;
 import com.google.protobuf.ByteString;
 import com.salesforce.eventbus.protobuf.*;
 import utility.CommonContext;
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * A single-topic publisher that creates an Order Event event and publishes it. This example uses
@@ -28,9 +28,9 @@ public class Publish extends CommonContext {
 
     private Schema schema;
 
-    public Publish(ExampleConfigurations exampleConfigurations) {
-        super(exampleConfigurations);
-        setupTopicDetails(exampleConfigurations.getTopic(), true, true);
+    public Publish(PubSubConfig pubSubConfig) {
+        super(pubSubConfig);
+        setupTopicDetails(pubSubConfig.getTopic(), true, true);
         schema = new Schema.Parser().parse(schemaInfo.getSchemaJson());
     }
 
@@ -130,11 +130,11 @@ public class Publish extends CommonContext {
     }
 
     public static void main(String[] args) throws IOException {
-        ExampleConfigurations exampleConfigurations = new ExampleConfigurations("arguments.yaml");
+        PubSubConfig pubSubConfig = new PubSubConfig("pubsub.yaml");
 
         // Using the try-with-resource statement. The CommonContext class implements AutoCloseable in
         // order to close the resources used.
-        try (Publish example = new Publish(exampleConfigurations)) {
+        try (Publish example = new Publish(pubSubConfig)) {
             example.publish();
         } catch (Exception e) {
             CommonContext.printStatusRuntimeException("Publishing events", e);

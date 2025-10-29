@@ -17,7 +17,7 @@ import genericpubsub.Publish;
 import genericpubsub.Subscribe;
 import io.grpc.stub.StreamObserver;
 import utility.CommonContext;
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * AccountListener
@@ -41,12 +41,12 @@ public class AccountListener {
     private static final String SUBSCRIBER_TOPIC = "/data/AccountChangeEvent";
     private static final String PUBLISHER_TOPIC = "/event/NewAccount__e";
 
-    public AccountListener(ExampleConfigurations requiredParams) {
+    public AccountListener(PubSubConfig requiredParams) {
         logger.info("Setting up the Subscriber");
-        ExampleConfigurations subscriberParams = setupSubscriberParameters(requiredParams, SUBSCRIBER_TOPIC, 100);
+        PubSubConfig subscriberParams = setupSubscriberParameters(requiredParams, SUBSCRIBER_TOPIC, 100);
         this.subscriber = new Subscribe(subscriberParams, getAccountListenerResponseObserver());
         logger.info("Setting up the Publisher");
-        ExampleConfigurations publisherParams = setupPublisherParameters(requiredParams, PUBLISHER_TOPIC);
+        PubSubConfig publisherParams = setupPublisherParameters(requiredParams, PUBLISHER_TOPIC);
         this.publisher = new Publish(publisherParams);
     }
 
@@ -103,8 +103,8 @@ public class AccountListener {
     }
 
     public static void main(String[] args) throws IOException {
-        // For this example specifying only the required configurations in the arguments.yaml is enough.
-        ExampleConfigurations requiredParameters = new ExampleConfigurations("arguments.yaml");
+        // For this example specifying only the required configurations in the pubsub.yaml is enough.
+        PubSubConfig requiredParameters = new PubSubConfig("pubsub.yaml");
         try {
             AccountListener ac = new AccountListener(requiredParameters);
             ac.startApp();

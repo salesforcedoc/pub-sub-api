@@ -16,7 +16,7 @@ import com.salesforce.eventbus.protobuf.*;
 
 import io.grpc.stub.StreamObserver;
 import utility.CommonContext;
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * A single-topic subscriber that consumes events using Event Bus API Subscribe RPC. The example demonstrates how to:
@@ -37,7 +37,7 @@ public class Subscribe extends CommonContext {
     public static String ERROR_REPLAY_ID_INVALID = "fetch.replayid.corrupted";
     public static String ERROR_SERVICE_UNAVAILABLE = "service.unavailable";
     public static int SERVICE_UNAVAILABLE_WAIT_BEFORE_RETRY_SECONDS = 5;
-    public static ExampleConfigurations exampleConfigurations;
+    public static PubSubConfig pubSubConfig;
     public static AtomicBoolean isActive = new AtomicBoolean(false);
     public static AtomicInteger retriesLeft = new AtomicInteger(MAX_RETRIES);
     private StreamObserver<FetchRequest> serverStream;
@@ -51,30 +51,30 @@ public class Subscribe extends CommonContext {
     private volatile ByteString storedReplay;
     private final boolean processChangedFields;
 
-    public Subscribe(ExampleConfigurations exampleConfigurations) {
-        super(exampleConfigurations);
+    public Subscribe(PubSubConfig pubSubConfig) {
+        super(pubSubConfig);
         isActive.set(true);
-        this.exampleConfigurations = exampleConfigurations;
-        this.BATCH_SIZE = exampleConfigurations.getNumberOfEventsToSubscribeInEachFetchRequest();
+        this.pubSubConfig = pubSubConfig;
+        this.BATCH_SIZE = pubSubConfig.getNumberOfEventsToSubscribeInEachFetchRequest();
         this.responseStreamObserver = getDefaultResponseStreamObserver();
-        this.setupTopicDetails(exampleConfigurations.getTopic(), false, false);
-        this.replayPreset = exampleConfigurations.getReplayPreset();
-        this.customReplayId = exampleConfigurations.getReplayId();
+        this.setupTopicDetails(pubSubConfig.getTopic(), false, false);
+        this.replayPreset = pubSubConfig.getReplayPreset();
+        this.customReplayId = pubSubConfig.getReplayId();
         this.retryScheduler = Executors.newScheduledThreadPool(1);
-        this.processChangedFields = exampleConfigurations.getProcessChangedFields();
+        this.processChangedFields = pubSubConfig.getProcessChangedFields();
     }
 
-    public Subscribe(ExampleConfigurations exampleConfigurations, StreamObserver<FetchResponse> responseStreamObserver) {
-        super(exampleConfigurations);
+    public Subscribe(PubSubConfig pubSubConfig, StreamObserver<FetchResponse> responseStreamObserver) {
+        super(pubSubConfig);
         isActive.set(true);
-        this.exampleConfigurations = exampleConfigurations;
-        this.BATCH_SIZE = exampleConfigurations.getNumberOfEventsToSubscribeInEachFetchRequest();
+        this.pubSubConfig = pubSubConfig;
+        this.BATCH_SIZE = pubSubConfig.getNumberOfEventsToSubscribeInEachFetchRequest();
         this.responseStreamObserver = responseStreamObserver;
-        this.setupTopicDetails(exampleConfigurations.getTopic(), false, false);
-        this.replayPreset = exampleConfigurations.getReplayPreset();
-        this.customReplayId = exampleConfigurations.getReplayId();
+        this.setupTopicDetails(pubSubConfig.getTopic(), false, false);
+        this.replayPreset = pubSubConfig.getReplayPreset();
+        this.customReplayId = pubSubConfig.getReplayId();
         this.retryScheduler = Executors.newScheduledThreadPool(1);
-        this.processChangedFields = exampleConfigurations.getProcessChangedFields();
+        this.processChangedFields = pubSubConfig.getProcessChangedFields();
     }
 
     /**
@@ -321,11 +321,11 @@ public class Subscribe extends CommonContext {
     }
 
     public static void main(String args[]) throws IOException  {
-        ExampleConfigurations exampleConfigurations = new ExampleConfigurations("arguments.yaml");
+        PubSubConfig pubSubConfig = new PubSubConfig("pubsub.yaml");
 
         // Using the try-with-resource statement. The CommonContext class implements AutoCloseable in
         // order to close the resources used.
-        try (Subscribe subscribe = new Subscribe(exampleConfigurations)) {
+        try (Subscribe subscribe = new Subscribe(pubSubConfig)) {
             subscribe.startSubscription();
         } catch (Exception e) {
             printStatusRuntimeException("Error during Subscribe", e);

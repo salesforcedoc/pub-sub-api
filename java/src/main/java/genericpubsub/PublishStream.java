@@ -23,7 +23,7 @@ import io.grpc.Status;
 import io.grpc.stub.ClientCallStreamObserver;
 import io.grpc.stub.StreamObserver;
 import utility.CommonContext;
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * A single-topic publisher that creates Order Event events and publishes them. This example
@@ -41,9 +41,9 @@ public class PublishStream extends CommonContext {
 
     private ByteString lastPublishedReplayId;
 
-    public PublishStream(ExampleConfigurations exampleConfigurations) {
-        super(exampleConfigurations);
-        setupTopicDetails(exampleConfigurations.getTopic(), true, true);
+    public PublishStream(PubSubConfig pubSubConfig) {
+        super(pubSubConfig);
+        setupTopicDetails(pubSubConfig.getTopic(), true, true);
     }
 
     /**
@@ -238,13 +238,13 @@ public class PublishStream extends CommonContext {
     }
 
     public static void main(String[] args) throws IOException {
-        ExampleConfigurations exampleConfigurations = new ExampleConfigurations("arguments.yaml");
+        PubSubConfig pubSubConfig = new PubSubConfig("pubsub.yaml");
 
         // Using the try-with-resource statement. The CommonContext class implements AutoCloseable in
         // order to close the resources used.
-        try (PublishStream example = new PublishStream(exampleConfigurations)) {
-            example.publishStream(exampleConfigurations.getNumberOfEventsToPublish(),
-                                  exampleConfigurations.getSinglePublishRequest());
+        try (PublishStream example = new PublishStream(pubSubConfig)) {
+            example.publishStream(pubSubConfig.getNumberOfEventsToPublish(),
+                                  pubSubConfig.getSinglePublishRequest());
         } catch (Exception e) {
             printStatusRuntimeException("Error During PublishStream", e);
         }

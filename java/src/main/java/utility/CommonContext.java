@@ -51,7 +51,7 @@ public class CommonContext implements AutoCloseable {
     protected SchemaInfo schemaInfo;
     protected String sessionToken;
 
-    public CommonContext(final ExampleConfigurations options) {
+    public CommonContext(final PubSubConfig options) {
         String grpcHost = options.getPubsubHost();
         int grpcPort = options.getPubsubPort();
         logger.info("Using grpcHost {} and grpcPort {}", grpcHost, grpcPort);
@@ -102,7 +102,7 @@ public class CommonContext implements AutoCloseable {
      * @param options Command line arguments passed.
      * @return CallCredentials
      */
-    public CallCredentials setupCallCredentials(ExampleConfigurations options) {
+    public CallCredentials setupCallCredentials(PubSubConfig options) {
         if (options.getAccessToken() != null) {
             try {
                 return sessionTokenService.loginWithAccessToken(options.getLoginUrl(),
@@ -305,8 +305,8 @@ public class CommonContext implements AutoCloseable {
      * @param topic
      * @return
      */
-    public static ExampleConfigurations setupSubscriberParameters(ExampleConfigurations requiredParams, String topic, int numberOfEvents) {
-        ExampleConfigurations subParams = new ExampleConfigurations();
+    public static PubSubConfig setupSubscriberParameters(PubSubConfig requiredParams, String topic, int numberOfEvents) {
+        PubSubConfig subParams = new PubSubConfig();
         setCommonParameters(subParams, requiredParams);
         subParams.setTopic(topic);
         subParams.setReplayPreset(ReplayPreset.LATEST);
@@ -321,8 +321,8 @@ public class CommonContext implements AutoCloseable {
      * @param topic
      * @return
      */
-    public static ExampleConfigurations setupPublisherParameters(ExampleConfigurations requiredParams, String topic) {
-        ExampleConfigurations pubParams = new ExampleConfigurations();
+    public static PubSubConfig setupPublisherParameters(PubSubConfig requiredParams, String topic) {
+        PubSubConfig pubParams = new PubSubConfig();
         setCommonParameters(pubParams, requiredParams);
         pubParams.setTopic(topic);
         return pubParams;
@@ -334,7 +334,7 @@ public class CommonContext implements AutoCloseable {
      * @param ep
      * @param requiredParams
      */
-    private static void setCommonParameters(ExampleConfigurations ep, ExampleConfigurations requiredParams) {
+    private static void setCommonParameters(PubSubConfig ep, PubSubConfig requiredParams) {
         ep.setLoginUrl(requiredParams.getLoginUrl());
         ep.setPubsubHost(requiredParams.getPubsubHost());
         ep.setPubsubPort(requiredParams.getPubsubPort());

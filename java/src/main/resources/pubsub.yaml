@@ -1,4 +1,4 @@
-# 'arguments.yaml' contains the required and optional configurations for running the examples.
+# 'pubsub.yaml' contains the required and optional configurations for running the examples.
 #
 # Note: Please ensure to specify a value of `null` to all optional configurations when
 # you do not wish to specify a value for the same. Some optional configurations will be

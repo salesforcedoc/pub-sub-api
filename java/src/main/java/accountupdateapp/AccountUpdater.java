@@ -17,7 +17,7 @@ import com.salesforce.eventbus.protobuf.FetchResponse;
 import genericpubsub.Subscribe;
 import io.grpc.stub.StreamObserver;
 import utility.CommonContext;
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * AccountUpdater
@@ -35,11 +35,11 @@ public class AccountUpdater {
     protected static final Logger logger = LoggerFactory.getLogger(AccountUpdater.class.getClass());
 
     protected Subscribe subscriber;
-    private ExampleConfigurations subscriberParams;
+    private PubSubConfig subscriberParams;
 
     private static final String SUBSCRIBER_TOPIC = "/event/NewAccount__e";
 
-    public AccountUpdater(ExampleConfigurations requiredParams) {
+    public AccountUpdater(PubSubConfig requiredParams) {
         logger.info("Setting Up Subscriber");
         this.subscriberParams = setupSubscriberParameters(requiredParams, SUBSCRIBER_TOPIC, 100);
         this.subscriber = new Subscribe(subscriberParams, getAccountUpdaterResponseObserver());
@@ -94,8 +94,8 @@ public class AccountUpdater {
     }
 
     public static void main(String[] args) throws IOException {
-        // For this example specifying only the required configurations in the arguments.yaml is enough.
-        ExampleConfigurations requiredParameters = new ExampleConfigurations("arguments.yaml");
+        // For this example specifying only the required configurations in the pubsub.yaml is enough.
+        PubSubConfig requiredParameters = new PubSubConfig("pubsub.yaml");
         try {
             AccountUpdater ac = new AccountUpdater(requiredParameters);
             ac.startApp();

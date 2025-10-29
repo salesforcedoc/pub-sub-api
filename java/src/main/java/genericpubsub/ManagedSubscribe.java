@@ -16,7 +16,7 @@ import com.salesforce.eventbus.protobuf.*;
 
 import io.grpc.stub.StreamObserver;
 import utility.CommonContext;
-import utility.ExampleConfigurations;
+import utility.PubSubConfig;
 
 /**
  * A single-topic subscriber that consumes events using Event Bus API ManagedSubscribe RPC. The example demonstrates how to:
@@ -40,13 +40,13 @@ public class ManagedSubscribe extends CommonContext implements StreamObserver<Ma
     private String managedSubscriptionId;
     private final boolean processChangedFields;
 
-    public ManagedSubscribe(ExampleConfigurations exampleConfigurations) {
-        super(exampleConfigurations);
+    public ManagedSubscribe(PubSubConfig pubSubConfig) {
+        super(pubSubConfig);
         isActive.set(true);
-        this.managedSubscriptionId = exampleConfigurations.getManagedSubscriptionId();
-        this.developerName = exampleConfigurations.getDeveloperName();
-        this.BATCH_SIZE = exampleConfigurations.getNumberOfEventsToSubscribeInEachFetchRequest();
-        this.processChangedFields = exampleConfigurations.getProcessChangedFields();
+        this.managedSubscriptionId = pubSubConfig.getManagedSubscriptionId();
+        this.developerName = pubSubConfig.getDeveloperName();
+        this.BATCH_SIZE = pubSubConfig.getNumberOfEventsToSubscribeInEachFetchRequest();
+        this.processChangedFields = pubSubConfig.getProcessChangedFields();
     }
 
     /**
@@ -254,11 +254,11 @@ public class ManagedSubscribe extends CommonContext implements StreamObserver<Ma
     }
 
     public static void main(String args[]) throws IOException  {
-        ExampleConfigurations exampleConfigurations = new ExampleConfigurations("arguments.yaml");
+        PubSubConfig pubSubConfig = new PubSubConfig("pubsub.yaml");
 
         // Using the try-with-resource statement. The CommonContext class implements AutoCloseable in
         // order to close the resources used.
-        try (ManagedSubscribe subscribe = new ManagedSubscribe(exampleConfigurations)) {
+        try (ManagedSubscribe subscribe = new ManagedSubscribe(pubSubConfig)) {
             subscribe.startManagedSubscription();
         } catch (Exception e) {
             printStatusRuntimeException("Error during ManagedSubscribe", e);

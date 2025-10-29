@@ -16,27 +16,28 @@ import com.salesforce.eventbus.protobuf.ReplayPreset;
  * default values when an optional configuration is not specified.
  */
 public class ExampleConfigurations {
-    private String username;
-    private String password;
-    private String loginUrl;
-    private String tenantId;
-    private String accessToken;
-    private String pubsubHost;
-    private Integer pubsubPort;
-    private String topic;
-    private Integer numberOfEventsToPublish;
-    private Boolean singlePublishRequest;
-    private Integer numberOfEventsToSubscribeInEachFetchRequest;
-    private Boolean processChangedFields;
-    private Boolean plaintextChannel;
-    private Boolean providedLoginUrl;
-    private ReplayPreset replayPreset;
-    private ByteString replayId;
-    private String managedSubscriptionId;
-    private String developerName;
+
+    private String subUsername;
+    private String subPassword;
+    private String subLoginUrl;
+    private String subTenantId;
+    private String subAccessToken;
+    private String subHost;
+    private Integer subPort;
+    private String subTopic;
+    private Integer subNumberOfEventsToPublish;
+    private Boolean subSinglePublishRequest;
+    private Integer subNumberOfEventsToSubscribeInEachFetchRequest;
+    private Boolean subProcessChangedFields;
+    private Boolean subPlaintextChannel;
+    private Boolean subProvidedLoginUrl;
+    private ReplayPreset subReplayPreset;
+    private ByteString subReplayId;
+    private String subManagedSubscriptionId;
+    private String subDeveloperName;
 
     public ExampleConfigurations() {
-        this(null, null, null, null, null,
+                this(null, null, null, null, null,
                 null, null, null, 5, false, 5, false,
                 false, false, ReplayPreset.LATEST, null, null, null);
     }
@@ -47,42 +48,42 @@ public class ExampleConfigurations {
         HashMap<String, Object> obj = yaml.load(inputStream);
 
         // Reading Required Parameters
-        this.loginUrl = obj.get("LOGIN_URL").toString();
-        this.pubsubHost = obj.get("PUBSUB_HOST").toString();
-        this.pubsubPort = Integer.parseInt(obj.get("PUBSUB_PORT").toString());
+        this.subLoginUrl = obj.get("LOGIN_URL").toString();
+        this.subHost = obj.get("PUBSUB_HOST").toString();
+        this.subPort = Integer.parseInt(obj.get("PUBSUB_PORT").toString());
 
         // Reading Optional Parameters
-        this.username = obj.get("USERNAME") == null ? null : obj.get("USERNAME").toString();
-        this.password = obj.get("PASSWORD") == null ? null : obj.get("PASSWORD").toString();
-        this.topic = obj.get("TOPIC") == null ? "/event/Order_Event__e" : obj.get("TOPIC").toString();
-        this.tenantId = obj.get("TENANT_ID") == null ? null : obj.get("TENANT_ID").toString();
-        this.accessToken = obj.get("ACCESS_TOKEN") == null ? null : obj.get("ACCESS_TOKEN").toString();
-        this.numberOfEventsToPublish = obj.get("NUMBER_OF_EVENTS_TO_PUBLISH") == null ?
+        this.subUsername = obj.get("USERNAME") == null ? null : obj.get("USERNAME").toString();
+        this.subPassword = obj.get("PASSWORD") == null ? null : obj.get("PASSWORD").toString();
+        this.subTopic = obj.get("TOPIC") == null ? "/event/Order_Event__e" : obj.get("TOPIC").toString();
+        this.subTenantId = obj.get("TENANT_ID") == null ? null : obj.get("TENANT_ID").toString();
+        this.subAccessToken = obj.get("ACCESS_TOKEN") == null ? null : obj.get("ACCESS_TOKEN").toString();
+        this.subNumberOfEventsToPublish = obj.get("NUMBER_OF_EVENTS_TO_PUBLISH") == null ?
                 5 : Integer.parseInt(obj.get("NUMBER_OF_EVENTS_TO_PUBLISH").toString());
-        this.singlePublishRequest = obj.get("SINGLE_PUBLISH_REQUEST") == null ?
+        this.subSinglePublishRequest = obj.get("SINGLE_PUBLISH_REQUEST") == null ?
                 false : Boolean.parseBoolean(obj.get("SINGLE_PUBLISH_REQUEST").toString());
-        this.numberOfEventsToSubscribeInEachFetchRequest = obj.get("NUMBER_OF_EVENTS_IN_FETCHREQUEST") == null ?
+        this.subNumberOfEventsToSubscribeInEachFetchRequest = obj.get("NUMBER_OF_EVENTS_IN_FETCHREQUEST") == null ?
                 5 : Integer.parseInt(obj.get("NUMBER_OF_EVENTS_IN_FETCHREQUEST").toString());
-        this.processChangedFields = obj.get("PROCESS_CHANGE_EVENT_HEADER_FIELDS") == null ?
+        this.subProcessChangedFields = obj.get("PROCESS_CHANGE_EVENT_HEADER_FIELDS") == null ?
                 false : Boolean.parseBoolean(obj.get("PROCESS_CHANGE_EVENT_HEADER_FIELDS").toString());
-        this.plaintextChannel = obj.get("USE_PLAINTEXT_CHANNEL") != null && Boolean.parseBoolean(obj.get("USE_PLAINTEXT_CHANNEL").toString());
-        this.providedLoginUrl = obj.get("USE_PROVIDED_LOGIN_URL") != null && Boolean.parseBoolean(obj.get("USE_PROVIDED_LOGIN_URL").toString());
+        this.subPlaintextChannel = obj.get("USE_PLAINTEXT_CHANNEL") != null && Boolean.parseBoolean(obj.get("USE_PLAINTEXT_CHANNEL").toString());
+        this.subProvidedLoginUrl = obj.get("USE_PROVIDED_LOGIN_URL") != null && Boolean.parseBoolean(obj.get("USE_PROVIDED_LOGIN_URL").toString());
 
         if (obj.get("REPLAY_PRESET") != null) {
             if (obj.get("REPLAY_PRESET").toString().equals("EARLIEST")) {
-                this.replayPreset = ReplayPreset.EARLIEST;
+                this.subReplayPreset = ReplayPreset.EARLIEST;
             } else if (obj.get("REPLAY_PRESET").toString().equals("CUSTOM")) {
-                this.replayPreset = ReplayPreset.CUSTOM;
-                this.replayId = getByteStringFromReplayIdInputString(obj.get("REPLAY_ID").toString());
+                this.subReplayPreset = ReplayPreset.CUSTOM;
+                this.subReplayId = getByteStringFromReplayIdInputString(obj.get("REPLAY_ID").toString());
             } else {
-                this.replayPreset = ReplayPreset.LATEST;
+                this.subReplayPreset = ReplayPreset.LATEST;
             }
         } else {
-            this.replayPreset = ReplayPreset.LATEST;
+            this.subReplayPreset = ReplayPreset.LATEST;
         }
 
-        this.developerName = obj.get("MANAGED_SUB_DEVELOPER_NAME") == null ? null : obj.get("MANAGED_SUB_DEVELOPER_NAME").toString();
-        this.managedSubscriptionId = obj.get("MANAGED_SUB_ID") == null ? null : obj.get("MANAGED_SUB_ID").toString();
+        this.subDeveloperName = obj.get("MANAGED_SUB_DEVELOPER_NAME") == null ? null : obj.get("MANAGED_SUB_DEVELOPER_NAME").toString();
+        this.subManagedSubscriptionId = obj.get("MANAGED_SUB_ID") == null ? null : obj.get("MANAGED_SUB_ID").toString();
     }
 
     public ExampleConfigurations(String username, String password, String loginUrl,
@@ -96,168 +97,168 @@ public class ExampleConfigurations {
                                  Boolean singlePublishRequest, Integer numberOfEventsToSubscribeInEachFetchRequest,
                                  Boolean processChangedFields, Boolean plaintextChannel, Boolean providedLoginUrl,
                                  ReplayPreset replayPreset, ByteString replayId, String devName, String managedSubId) {
-        this.username = username;
-        this.password = password;
-        this.loginUrl = loginUrl;
-        this.tenantId = tenantId;
-        this.accessToken = accessToken;
-        this.pubsubHost = pubsubHost;
-        this.pubsubPort = pubsubPort;
-        this.topic = topic;
-        this.singlePublishRequest = singlePublishRequest;
-        this.numberOfEventsToPublish = numberOfEventsToPublish;
-        this.numberOfEventsToSubscribeInEachFetchRequest = numberOfEventsToSubscribeInEachFetchRequest;
-        this.processChangedFields = processChangedFields;
-        this.plaintextChannel = plaintextChannel;
-        this.providedLoginUrl = providedLoginUrl;
-        this.replayPreset = replayPreset;
-        this.replayId = replayId;
-        this.developerName = devName;
-        this.managedSubscriptionId = managedSubId;
+        this.subUsername = username;
+        this.subPassword = password;
+        this.subLoginUrl = loginUrl;
+        this.subTenantId = tenantId;
+        this.subAccessToken = accessToken;
+        this.subHost = pubsubHost;
+        this.subPort = pubsubPort;
+        this.subTopic = topic;
+        this.subSinglePublishRequest = singlePublishRequest;
+        this.subNumberOfEventsToPublish = numberOfEventsToPublish;
+        this.subNumberOfEventsToSubscribeInEachFetchRequest = numberOfEventsToSubscribeInEachFetchRequest;
+        this.subProcessChangedFields = processChangedFields;
+        this.subPlaintextChannel = plaintextChannel;
+        this.subProvidedLoginUrl = providedLoginUrl;
+        this.subReplayPreset = replayPreset;
+        this.subReplayId = replayId;
+        this.subDeveloperName = devName;
+        this.subManagedSubscriptionId = managedSubId;
     }
 
     public String getUsername() {
-        return username;
+        return subUsername;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String subUsername) {
+        this.subUsername = subUsername;
     }
 
     public String getPassword() {
-        return password;
+        return subPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String subPassword) {
+        this.subPassword = subPassword;
     }
 
     public String getLoginUrl() {
-        return loginUrl;
+        return subLoginUrl;
     }
 
-    public void setLoginUrl(String loginUrl) {
-        this.loginUrl = loginUrl;
+    public void setLoginUrl(String subLoginUrl) {
+        this.subLoginUrl = subLoginUrl;
     }
 
     public String getTenantId() {
-        return tenantId;
+        return subTenantId;
     }
 
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+    public void setTenantId(String subTenantId) {
+        this.subTenantId = subTenantId;
     }
 
     public String getAccessToken() {
-        return accessToken;
+        return subAccessToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccessToken(String subAccessToken) {
+        this.subAccessToken = subAccessToken;
     }
 
     public String getPubsubHost() {
-        return pubsubHost;
+        return subHost;
     }
 
-    public void setPubsubHost(String pubsubHost) {
-        this.pubsubHost = pubsubHost;
+    public void setPubsubHost(String subHost) {
+        this.subHost = subHost;
     }
 
     public int getPubsubPort() {
-        return pubsubPort;
+        return subPort;
     }
 
-    public void setPubsubPort(int pubsubPort) {
-        this.pubsubPort = pubsubPort;
+    public void setPubsubPort(int subPort) {
+        this.subPort = subPort;
     }
 
     public Integer getNumberOfEventsToPublish() {
-        return numberOfEventsToPublish;
+        return subNumberOfEventsToPublish;
     }
 
-    public void setNumberOfEventsToPublish(Integer numberOfEventsToPublish) {
-        this.numberOfEventsToPublish = numberOfEventsToPublish;
+    public void setNumberOfEventsToPublish(Integer subNumberOfEventsToPublish) {
+        this.subNumberOfEventsToPublish = subNumberOfEventsToPublish;
     }
 
     public Boolean getSinglePublishRequest() {
-        return singlePublishRequest;
+        return subSinglePublishRequest;
     }
 
-    public void setSinglePublishRequest(Boolean singlePublishRequest) {
-        this.singlePublishRequest = singlePublishRequest;
+    public void setSinglePublishRequest(Boolean subSinglePublishRequest) {
+        this.subSinglePublishRequest = subSinglePublishRequest;
     }
 
     public int getNumberOfEventsToSubscribeInEachFetchRequest() {
-        return numberOfEventsToSubscribeInEachFetchRequest;
+        return subNumberOfEventsToSubscribeInEachFetchRequest;
     }
 
-    public void setNumberOfEventsToSubscribeInEachFetchRequest(int numberOfEventsToSubscribeInEachFetchRequest) {
-        this.numberOfEventsToSubscribeInEachFetchRequest = numberOfEventsToSubscribeInEachFetchRequest;
+    public void setNumberOfEventsToSubscribeInEachFetchRequest(int subNumberOfEventsToSubscribeInEachFetchRequest) {
+        this.subNumberOfEventsToSubscribeInEachFetchRequest = subNumberOfEventsToSubscribeInEachFetchRequest;
     }
 
     public Boolean getProcessChangedFields() {
-        return processChangedFields;
+        return subProcessChangedFields;
     }
 
-    public void setProcessChangedFields(Boolean processChangedFields) {
-        this.processChangedFields = processChangedFields;
+    public void setProcessChangedFields(Boolean subProcessChangedFields) {
+        this.subProcessChangedFields = subProcessChangedFields;
     }
 
     public boolean usePlaintextChannel() {
-        return plaintextChannel;
+        return subPlaintextChannel;
     }
 
     public void setPlaintextChannel(boolean plaintextChannel) {
-        this.plaintextChannel = plaintextChannel;
+        this.subPlaintextChannel = plaintextChannel;
     }
 
     public Boolean useProvidedLoginUrl() {
-        return providedLoginUrl;
+        return subProvidedLoginUrl;
     }
 
     public String getTopic() {
-        return topic;
+        return subTopic;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setTopic(String subTopic) {
+        this.subTopic = subTopic;
     }
 
-    public void setProvidedLoginUrl(Boolean providedLoginUrl) {
-        this.providedLoginUrl = providedLoginUrl;
+    public void setProvidedLoginUrl(Boolean subProvidedLoginUrl) {
+        this.subProvidedLoginUrl = subProvidedLoginUrl;
     }
 
     public ReplayPreset getReplayPreset() {
-        return replayPreset;
+        return subReplayPreset;
     }
 
-    public void setReplayPreset(ReplayPreset replayPreset) {
-        this.replayPreset = replayPreset;
+    public void setReplayPreset(ReplayPreset subReplayPreset) {
+        this.subReplayPreset = subReplayPreset;
     }
 
     public ByteString getReplayId() {
-        return replayId;
+        return subReplayId;
     }
 
     public void setReplayId(ByteString replayId) {
-        this.replayId = replayId;
+        this.subReplayId = replayId;
     }
 
     public String getManagedSubscriptionId() {
-        return managedSubscriptionId;
+        return subManagedSubscriptionId;
     }
 
-    public void setManagedSubscriptionId(String managedSubscriptionId) {
-        this.managedSubscriptionId = managedSubscriptionId;
+    public void setManagedSubscriptionId(String subManagedSubscriptionId) {
+        this.subManagedSubscriptionId = subManagedSubscriptionId;
     }
 
     public String getDeveloperName() {
-        return developerName;
+        return subDeveloperName;
     }
 
-    public void setDeveloperName(String developerName) {
-        this.developerName = developerName;
+    public void setDeveloperName(String subDeveloperName) {
+        this.subDeveloperName = subDeveloperName;
     }
 
 
